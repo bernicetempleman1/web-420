@@ -5,13 +5,18 @@
  * Description: the in-n-out-books application
  */
 
+// set up an Express application by adding the following require statements:
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const createError = require("http-errors");
 
+//Create an express application by defining a variable and assigning it the Express module.
 const app = express(); // Creates an Express application
 
+// parse incoming requests with JSON payloads
 app.use(express.json());
+
+// parse incoming requests with urlencoded payloads
 app.use(express.urlencoded({ extended: true }));
 
 //Add a GET route for the root URL (“/”). This route should return an HTML response with a fully designed landing page that represents the “in-n-out-books” project.
