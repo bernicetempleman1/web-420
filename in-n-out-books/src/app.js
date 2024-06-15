@@ -16,8 +16,6 @@ app.use(express.urlencoded({ extended: true }));
 
 //Add a GET route for the root URL (“/”). This route should return an HTML response with a fully designed landing page that represents the “in-n-out-books” project.
 app.get("/", async (req, res, next) => {
-  //next(createError(501)); // uncomment to test: Creates a 501 error
-
   // HTML content for the landing page
   const html = `
 <html>
