@@ -7,18 +7,13 @@
 
 
 const express = require("express");
-const app = express();
-const port = 3000;
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.set('port', 3000); // Example setting the port number
+const bcrypt = require("bcryptjs");
+const createError = require("http-errors");
 
+const app = express(); // Creates an Express application
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-
-
 
 app.get("/", async (req, res, next) => {
   // HTML content for the landing page
@@ -71,6 +66,24 @@ serving.</p>
 res.send(html); // Sends the HTML content to the client
 });
 
+// Add middleware functions to handle 404 and 500 errors.
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
+
+// In the 500-error middleware, return a JSON response with the error details. Include the error stack only if the application is running in development mode.
+// error handler
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+
+  res.json({
+    type: "error",
+    status: err.status,
+    message: err.message,
+    stack: req.app.get("env") === "development" ? err.stack : undefined,
+  });
+});
 
 //Export the Express application from the app.js file.
 module.exports=app
