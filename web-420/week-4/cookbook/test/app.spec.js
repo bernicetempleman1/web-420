@@ -14,14 +14,13 @@ describe("Chapter 3: API Tests", () => {
       expect(recipe).toHaveProperty("ingredients");
     });
   });
-});
 
-it("should return a single recipe", async () => {
-  const res = await request(app).get("/api/recipes/1");
-  expect(res.statusCode).toEqual(200);
-  expect(res.body).toHaveProperty("id", 1);
-  expect(res.body).toHaveProperty("name", "Pancakes");
-  expect(res.body).toHaveProperty("ingredients", ["flour", "milk", "eggs"]);
+  it("should return a single recipe", async () => {
+    const res = await request(app).get("/api/recipes/1");
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty("id", 1);
+    expect(res.body).toHaveProperty("name", "Pancakes");
+    expect(res.body).toHaveProperty("ingredients", ["flour", "milk", "eggs"]);
   });
 
   it("should return a 400 error if the id is not a number", async () => {
@@ -29,3 +28,4 @@ it("should return a single recipe", async () => {
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual("Input must be a number");
   });
+});
