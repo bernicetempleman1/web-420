@@ -16,7 +16,6 @@ describe("Chapter 3: API Tests", () => {
   });
 });
 
-
 it("should return a single recipe", async () => {
   const res = await request(app).get("/api/recipes/1");
   expect(res.statusCode).toEqual(200);

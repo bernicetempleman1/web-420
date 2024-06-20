@@ -93,9 +93,6 @@ app.get("/api/recipes/:id", async (req, res, next) => {
   }
 });
 
-
-
-
 // Add middleware functions to handle 404 and 500 errors.
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

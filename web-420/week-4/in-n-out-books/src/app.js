@@ -9,6 +9,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const createError = require("http-errors");
+const books = require("../database/books");
 
 //Create an express application by defining a variable and assigning it the Express module.
 const app = express(); // Creates an Express application
@@ -60,12 +61,12 @@ app.get("/", async (req, res, next) => {
         margin: 0 auto;
         font-family: "Lora", serif;
       }
-      .recipe {
+      .book {
         border: 1px solid #ffff;
         padding: 1rem;
         margin: 1rem 0;
       }
-      .recipe h3 {
+      .book h3 {
         margin-top: 0;
       }
       main a {
@@ -102,6 +103,48 @@ app.get("/", async (req, res, next) => {
 </html>
 `; // end HTML content for the landing page
   res.send(html); // Sends the HTML content to the client
+});
+
+// add a get route: sets up an asynchronous GET endpoint at the path /api/books.
+app.get("/api/books", async (req, res, next) => {
+  try {
+    //retrieves all books from the books.js module.
+    //The await keyword is used to wait for the promise returned by the books.find() to resolve
+    const allBooks = await books.find();
+    console.log("All Books: ", allBooks); // Logs all books
+
+    // This sends the retrieved books back to the client as the response of the GET request.
+    res.send(allBooks); // Sends response with all books
+  } catch (err) {
+    //The catch block handles any errors that occur during the execution of the try block.
+    //It logs the error message to stdout and passes the error to the next middleware function in the stack.
+    console.error("Error: ", err.message); // Logs error message
+    next(err); // Passes error to the next middleware
+  }
+});
+
+// add a get route: define a GET endpoint at /api/books/:id in our Express application.
+// This endpoint retrieves a specific book by its ID from our mock database and sends it back to the client
+app.get("/api/books/:id", async (req, res, next) => {
+  try {
+    let { id } = req.params; // destructing the id property from the req.params object
+    id = parseInt(id); // parseInt() function to parse the string value into a numerical one.
+    if (isNaN(id)) {
+      // error handling to check if the id is not a number and throwing a 400 error if it is not with an error message.
+      return next(createError(400, "Input must be a number"));
+    }
+    // fetches the book with the specified ID from the mock database.
+    // The await keyword is used to pause execution until the promise returned by the findOne() method is resolved.
+    // req.params.id is used to retrieve the value being passed to the endpoint.
+    const book = await books.findOne({ id: id }); // check if the id variable is NaN (not a number). parseInt() function wil return NaN if the string value cannot be converted to a numerical one.
+    console.log("Book: ", book);
+
+    // sends the retrieved book back to the client as the response to the GET request.
+    res.send(book);
+  } catch (err) {
+    console.error("Error: ", err.message);
+    next(err);
+  }
 });
 
 // Add middleware functions to handle 404 and 500 errors.
