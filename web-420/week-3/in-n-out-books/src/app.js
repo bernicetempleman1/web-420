@@ -93,6 +93,18 @@ app.get("/", async (req, res, next) => {
           manage a shared collection, “In-N-Out-Books” is designed to cater to
           your needs.
         </p>
+
+        <div class="recipe">
+<h3>Classic Beef Tacos</h3>
+<p>1. Brown the ground beef in a skillet.<br>2. Warm the taco shells in the
+oven.<br>3. Fill the taco shells with beef, lettuce, and cheese.</p>
+</div>
+<div class="recipe">
+<h3>Vegetarian Lasagna</h3>
+<p>1. Layer lasagna noodles, marinara sauce, and cheese in a baking
+dish.<br>2. Bake at 375 degrees for 45 minutes.<br>3. Let cool before
+serving.</p>
+</div>
       </main>
     </div>
   </body>

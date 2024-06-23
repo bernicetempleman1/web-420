@@ -24,10 +24,205 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", async (req, res, next) => {
   // HTML content for the landing page
   const html = `
-<html>
+<html lang="en">
   <head>
-    <title>In-N-Out-Books</title>
+    <title>In-N-Out-Books: Template</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Emblema+One&family=Lora&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      /* CSS Reset */
+      body,
+      header,
+      nav,
+      main,
+      footer,
+      img,
+      h1,
+      h3,
+      ul,
+      aside,
+      figure,
+      figcaption,
+      video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      /* Style rules for body and images */
+      body {
+        background-color: #f6eee4;
+      }
+
+      img,
+      video {
+        max-width: 100%;
+        display: block;
+      }
+
+      /* Style rules for mobile viewport*/
+      .mobile,
+      .mobile-tablet {
+        display: block;
+      }
+
+      /* Style rules to show mobile class and hide tab-desk class */
+      .tab-desk,
+      .desktop {
+        display: block;
+      }
+
+      /* Style  rules for header area */
+      .mobile h1,
+      .mobile h3 {
+        padding: 2%;
+        text-align: center;
+      }
+
+      .mobile h1 {
+        font-family: "Emblema One";
+      }
+
+      .mobile h3 {
+        font-family: "Lora", serif;
+      }
+
+      h1,
+      h3 {
+        padding: 2%;
+        text-align: center;
+      }
+
+      h1 {
+        font-family: "Emblema One";
+      }
+
+      h3 {
+        font-family: "Lora", serif;
+      }
+
+      /* Style rules for navigation area */
+      nav {
+        background: #2a1f14;
+      }
+
+      nav ul {
+        list-style: none;
+        text-align: center;
+      }
+
+      nav li {
+        display: block;
+        font-size: 1.5em;
+        font-family: Geneva, Arial, sans-serif;
+        font-weight: bold;
+      }
+
+      nav li a {
+        display: block;
+        color: #f6eee4;
+        padding: 0.5em 2em;
+        text-decoration: none;
+        border-top: 0.5px solid #f6eee4;
+      }
+
+      /* Style rules for main content */
+      main {
+        padding: 2%;
+        font-family: "Lora", serif;
+      }
+
+      main p {
+        font-size: 1.25em;
+      }
+
+      main h3 {
+        padding-top: 2%;
+      }
+
+      main ul {
+        list-style: square;
+      }
+
+      .link {
+        color: #4d3319;
+        text-decoration: none;
+        font-weight: bold;
+        font-style: italic;
+      }
+      /* Style rules for footer content */
+      footer {
+        text-align: center;
+        font-size: 0.85em;
+        background-color: #2a1f14;
+        color: #f6eee4;
+        padding: 1% 0%;
+      }
+
+      /* Media Query for Tablet Viewport */
+      @media screen and (min-width: 620px), print {
+        /* Tablet Viewport: Show tab-desk class, hide mobile class */
+        .tab-desk {
+          display: block;
+        }
+
+        .mobile {
+          display: none;
+        }
+
+        /* Tablet Viewport: Style rules for nav area */
+        nav li {
+          border-top: none;
+          display: inline-block;
+          font-size: 1.25em;
+        }
+
+        nav li a {
+          padding: 0.5em;
+        }
+      }
+
+      /* Media Query for Desktop Viewport */
+      @media screen and (min-width: 1000px), print {
+        /* Desktop Viewport: Show desktop class, hide mobile-tablet class */
+
+        .desktop {
+          display: block;
+        }
+
+        .mobile-tablet {
+          display: none;
+        }
+      }
+
+      /* Media  Query for Large Desktop Viewports */
+      @media screen and (min-width: 1921px) {
+        body {
+          background: linear-gradient(#f6eee4, #78593a);
+        }
+
+        #wrapper {
+          width: 1920px;
+          margin: 0 auto;
+        }
+
+        main {
+          background-color: #f6eee4;
+        }
+      }
+
+      /* Media Query for Print */
+      @media print {
+        body {
+          background-color: white;
+          color: black;
+        }
+      }
+
       body,
       h1,
       h2,
@@ -53,6 +248,7 @@ app.get("/", async (req, res, next) => {
         text-align: center;
       }
       h3 {
+        text-align: center;
         color: #ffffff;
       }
 
@@ -80,24 +276,64 @@ app.get("/", async (req, res, next) => {
     </style>
   </head>
   <body>
-    <div class="container">
+    <div id="wrapper">
+      <!-- Use the header area for the website name or logo -->
       <header>
-        <h1>In-N-Out-Books</h1>
-        <h2>Discover and Share Amazing Books</h2>
+        <div class="tab-desk"></div>
+        <div>
+          <h1>In-N-Out Books</h1>
+          <h3>Discover and Share Amazing Books.</h3>
+        </div>
       </header>
 
-      <br />
+      <!-- Use the nav area to add hyperlinks to other pages within the website-->
+      <nav>
+        <ul>
+          <li><a href="http://localhost:3000">Home</a></li>
+          <li><a href="http://localhost:3000/api/books"> All Books</a></li>
+          <li><a href="http://localhost:3000/api/books/1">Book 1</a></li>
+          <li><a href="http://localhost:3000/api/books/2">Book 2</a></li>
+          <li><a href="http://localhost:3000/api/books/3">Book 3</a></li>
+          <li><a href="http://localhost:3000/api/books/4">Book 4</a></li>
+          <li><a href="http://localhost:3000/api/books/5">Book 5</a></li>
+        </ul>
+      </nav>
 
+      <!-- Use the main area to add the main content to the webpage -->
       <main>
-        <p>
-          The idea of the “In-N-Out-Books” was inspired by the love of books and
-          the desire to create a platform where uses can manage their own
-          collection of books. Whether you are an avid reader who wants to keep
-          track of the books you’ve read, or a book club organizer who needs to
-          manage a shared collection, “In-N-Out-Books” is designed to cater to
-          your needs.
-        </p>
+        <div id="welcome">
+          <!-- 1st paragraph element: Use the first paragraph below for a welcome message and mission statement. -->
+          <p>
+            The idea of the “In-N-Out-Books” was inspired by the love of books
+            and the desire to create a platform where uses can manage their own
+            collection of books.
+          </p>
+
+          <!-- 2nd paragraph element: Use the second paragraph below for services provided. -->
+          <p>
+            Whether you are an avid reader who wants to keep track of the books
+            you’ve read, or a book club organizer who needs to manage a shared
+            collection, “In-N-Out-Books” is designed to cater to your needs.
+          </p>
+        </div>
+
+        <div id="latest">
+
+        <!-- Heading for the latest rescue -->
+        <h2>Our Latest Book: Return of the King</h2>
+
+
+        <!-- Paragraph element: Use the paragraph below to describe the latest book-->
+        <p>Title: "The Return of the King" by author: J.R.R. Tolkien</p>
+
+      </div>
+
       </main>
+
+      <!-- Use the footer area to add webpage footer content-->
+      <footer>
+        <p>&copy; Copyright 2024. All Rights Reserved.</p>
+      </footer>
     </div>
   </body>
 </html>
