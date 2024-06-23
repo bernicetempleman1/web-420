@@ -130,6 +130,11 @@ app.get("/", async (req, res, next) => {
         border-top: 0.5px solid #f6eee4;
       }
 
+      nav a:hover {
+        color: #ffff00;
+        text-decoration: underline;
+      }
+
       /* Style rules for main content */
       main {
         padding: 2%;
@@ -291,11 +296,13 @@ app.get("/", async (req, res, next) => {
         <ul>
           <li><a href="http://localhost:3000">Home</a></li>
           <li><a href="http://localhost:3000/api/books"> All Books</a></li>
-          <li><a href="http://localhost:3000/api/books/1">Book 1</a></li>
-          <li><a href="http://localhost:3000/api/books/2">Book 2</a></li>
-          <li><a href="http://localhost:3000/api/books/3">Book 3</a></li>
-          <li><a href="http://localhost:3000/api/books/4">Book 4</a></li>
-          <li><a href="http://localhost:3000/api/books/5">Book 5</a></li>
+          <ul>
+            <li><a href="http://localhost:3000/api/books/1">Book 1</a></li>
+            <li><a href="http://localhost:3000/api/books/2">Book 2</a></li>
+            <li><a href="http://localhost:3000/api/books/3">Book 3</a></li>
+            <li><a href="http://localhost:3000/api/books/4">Book 4</a></li>
+            <li><a href="http://localhost:3000/api/books/5">Book 5</a></li>
+          </ul>
         </ul>
       </nav>
 

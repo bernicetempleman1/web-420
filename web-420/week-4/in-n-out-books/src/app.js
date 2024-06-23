@@ -184,6 +184,10 @@ app.get("/", async (req, res, next) => {
         nav li a {
           padding: 0.5em;
         }
+        nav a:hover {
+        color: #ffff00;
+        text-decoration: underline;
+        }
       }
 
       /* Media Query for Desktop Viewport */
@@ -290,12 +294,14 @@ app.get("/", async (req, res, next) => {
       <nav>
         <ul>
           <li><a href="http://localhost:3000">Home</a></li>
-          <li><a href="http://localhost:3000/api/books"> All Books</a></li>
-          <li><a href="http://localhost:3000/api/books/1">Book 1</a></li>
-          <li><a href="http://localhost:3000/api/books/2">Book 2</a></li>
-          <li><a href="http://localhost:3000/api/books/3">Book 3</a></li>
-          <li><a href="http://localhost:3000/api/books/4">Book 4</a></li>
-          <li><a href="http://localhost:3000/api/books/5">Book 5</a></li>
+          <li><a href="http://localhost:3000/api/books">Books</a></li>
+          <ul>
+            <li><a href="http://localhost:3000/api/books/1">Book 1</a></li>
+            <li><a href="http://localhost:3000/api/books/2">Book 2</a></li>
+            <li><a href="http://localhost:3000/api/books/3">Book 3</a></li>
+            <li><a href="http://localhost:3000/api/books/4">Book 4</a></li>
+            <li><a href="http://localhost:3000/api/books/5">Book 5</a></li>
+          </ul>
         </ul>
       </nav>
 
