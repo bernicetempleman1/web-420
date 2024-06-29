@@ -130,11 +130,6 @@ app.get("/", async (req, res, next) => {
         border-top: 0.5px solid #f6eee4;
       }
 
-      nav a:hover {
-        color: #ffff00;
-        text-decoration: underline;
-      }
-
       /* Style rules for main content */
       main {
         padding: 2%;
@@ -188,6 +183,10 @@ app.get("/", async (req, res, next) => {
 
         nav li a {
           padding: 0.5em;
+        }
+        nav a:hover {
+        color: #ffff00;
+        text-decoration: underline;
         }
       }
 
@@ -295,7 +294,7 @@ app.get("/", async (req, res, next) => {
       <nav>
         <ul>
           <li><a href="http://localhost:3000">Home</a></li>
-          <li><a href="http://localhost:3000/api/books"> All Books</a></li>
+          <li><a href="http://localhost:3000/api/books">Books</a></li>
           <ul>
             <li><a href="http://localhost:3000/api/books/1">Book 1</a></li>
             <li><a href="http://localhost:3000/api/books/2">Book 2</a></li>
@@ -348,6 +347,7 @@ app.get("/", async (req, res, next) => {
   res.send(html); // Sends the HTML content to the client
 });
 
+
 // add a get route: sets up an asynchronous GET endpoint at the path /api/books.
 app.get("/api/books", async (req, res, next) => {
   try {
@@ -365,6 +365,7 @@ app.get("/api/books", async (req, res, next) => {
     next(err); // Passes error to the next middleware
   }
 });
+
 
 // add a get route: define a GET endpoint at /api/books/:id in our Express application.
 // This endpoint retrieves a specific book by its ID from our mock database and sends it back to the client
@@ -389,6 +390,45 @@ app.get("/api/books/:id", async (req, res, next) => {
     next(err);
   }
 });
+
+app.post("/api/books", async (req, res, next) => {
+  try {
+    const newBook = req.body;
+    const expectedKeys = ["id", "title", "author"];
+    const receivedKeys = Object.keys(newBook);
+    if (
+      !receivedKeys.every((key) => expectedKeys.includes(key)) ||
+      receivedKeys.length !== expectedKeys.length
+    ) {
+      console.error("Bad Request: Missing keys or extra keys", receivedKeys);
+      return next(createError(400, "Bad Request"));
+    }
+    const result = await books.insertOne(newBook);
+    console.log("Result: ", result);
+    res.status(201).send({ id: result.ops[0].id });
+  } catch (err) {
+    console.error("Error: ", err.message);
+    next(err);
+  }
+});
+
+app.delete("/api/books/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await books.deleteOne({ id: parseInt(id) });
+    console.log("Result: ", result);
+    res.status(204).send();
+  } catch (err) {
+    if (err.message === "No matching item found") {
+      return next(createError(404, "Book not found"));
+    }
+    console.error("Error: ", err.message);
+    next(err);
+  }
+});
+
+
+
 
 // Add middleware functions to handle 404 and 500 errors.
 // catch 404 and forward to error handler
