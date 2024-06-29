@@ -324,16 +324,12 @@ app.get("/", async (req, res, next) => {
         </div>
 
         <div id="latest">
+          <!-- Heading for the latest rescue -->
+          <h2>Our Latest Book: Return of the King</h2>
 
-        <!-- Heading for the latest rescue -->
-        <h2>Our Latest Book: Return of the King</h2>
-
-
-        <!-- Paragraph element: Use the paragraph below to describe the latest book-->
-        <p>Title: "The Return of the King" by author: J.R.R. Tolkien</p>
-
-      </div>
-
+          <!-- Paragraph element: Use the paragraph below to describe the latest book-->
+          <p>Title: "The Return of the King" by author: J.R.R. Tolkien</p>
+        </div>
       </main>
 
       <!-- Use the footer area to add webpage footer content-->
@@ -346,7 +342,6 @@ app.get("/", async (req, res, next) => {
 `; // end HTML content for the landing page
   res.send(html); // Sends the HTML content to the client
 });
-
 
 // add a get route: sets up an asynchronous GET endpoint at the path /api/books.
 app.get("/api/books", async (req, res, next) => {
@@ -365,7 +360,6 @@ app.get("/api/books", async (req, res, next) => {
     next(err); // Passes error to the next middleware
   }
 });
-
 
 // add a get route: define a GET endpoint at /api/books/:id in our Express application.
 // This endpoint retrieves a specific book by its ID from our mock database and sends it back to the client
@@ -391,6 +385,7 @@ app.get("/api/books/:id", async (req, res, next) => {
   }
 });
 
+// Insert a book. It checks if the id, title, or author are not provided and throws an error if true.
 app.post("/api/books", async (req, res, next) => {
   try {
     const newBook = req.body;
@@ -412,6 +407,7 @@ app.post("/api/books", async (req, res, next) => {
   }
 });
 
+// delete a book
 app.delete("/api/books/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -426,9 +422,6 @@ app.delete("/api/books/:id", async (req, res, next) => {
     next(err);
   }
 });
-
-
-
 
 // Add middleware functions to handle 404 and 500 errors.
 // catch 404 and forward to error handler
