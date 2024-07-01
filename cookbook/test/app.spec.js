@@ -84,7 +84,6 @@ describe("Chapter 5: API Tests", () => {
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual("Input must be a number");
   });
-
   it("should return a 400 status code when updating a recipe with missing keys or extra keys", async () => {
     const res = await request(app).put("/api/recipes/1").send({
       name: "Test Recipe",
@@ -102,3 +101,15 @@ describe("Chapter 5: API Tests", () => {
     expect(res2.body.message).toEqual("Bad Request");
   });
 }); // end chapter 5
+
+//Create a new test suite using Jest’s describe method:
+describe("Chapter 6: API Tests", () => {
+  it("should return a 200 status code with a message of 'Registration successful' when registering a new user", async () => {
+    const res = await request(app).post("/api/register").send({
+      email: "cedric@hogwarts.edu",
+      password: "diggory",
+    });
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.message).toEqual("Registration successful");
+  });
+}); // end chapter 6

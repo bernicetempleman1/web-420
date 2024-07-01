@@ -9,6 +9,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const createError = require("http-errors");
 const recipes = require("../database/recipes");
+const users = require("../database/users");
 
 const app = express(); // Creates an Express application
 
@@ -155,6 +156,21 @@ app.put("/api/recipes/:id", async (req, res, next) => {
       console.log("Recipe not found", err.message);
       return next(createError(404, "Recipe not found"));
     }
+    console.error("Error: ", err.message);
+    next(err);
+  }
+});
+
+app.post("/api/register", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    const user = await users.insertOne({
+      email: email,
+      password: hashedPassword,
+    });
+    res.status(200).send({ user: user, message: "Registration successful" });
+  } catch (err) {
     console.error("Error: ", err.message);
     next(err);
   }

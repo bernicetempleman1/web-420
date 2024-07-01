@@ -72,3 +72,37 @@ describe("Chapter 4: API Tests", () => {
     expect(res.statusCode).toEqual(204);
   });
 });
+
+//Create a new test suite using Jest’s describe method:
+describe("Chapter 5: API Tests", () => {
+  // This defines a unit test that checks if the /api/books/:id PUT endpoint returns a 204 status code for successful updates.
+  it("Should update a book and return a 204-status code.", async () => {
+    // sends a PUT request to /api/recipes/:id endpoint and waits for a response, using the supertest npm package.
+    const res = await request(app)
+      .put("/api/books/1")
+      .send({ //{ id: 1, title: "The Fellowship of the Ring", author: "J.R.R. Tolkien" },
+        title: "The Fellowship of the Ring",
+        author: ["J.R.R. Tolkien"],
+      });
+    // checks if the response status code is 204, indicating the request was successful.
+    expect(res.statusCode).toEqual(204);
+  });
+
+  it("Should return a 400-status code when using a non-numeric id.", async () => {
+    const res = await request(app)
+      .put("/api/books/foo")
+      .send({
+        title: "Test Book",
+        author: "test",
+      });
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Input must be a number");
+  });
+  it("Should return a 400-status code when updating a book with a missing title.", async () => {
+    const res = await request(app).put("/api/books/1").send({
+      author: "Test Author",
+    });
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Bad Request");
+  });
+}); // end chapter 5
