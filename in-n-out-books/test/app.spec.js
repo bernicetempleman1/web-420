@@ -12,7 +12,7 @@ const request = require("supertest");
 
 //Create a new test suite using Jest’s describe method:
 describe("Chapter 3: API Tests", () => {
-  it("it should return an array of books", async () => {
+  it("Should return an array of books.", async () => {
     const res = await request(app).get("/api/books");
 
     // 200 status code
@@ -30,7 +30,7 @@ describe("Chapter 3: API Tests", () => {
   });
 
   // This defines a unit test that checks if the /api/books/:id endpoint returns a single book.
-  it("should return a single book", async () => {
+  it("Should return a single book", async () => {
     //{ id: 1, title: "The Fellowship of the Ring", author: "J.R.R. Tolkien" },
     const res = await request(app).get("/api/books/1");
     expect(res.statusCode).toEqual(200);
@@ -40,7 +40,7 @@ describe("Chapter 3: API Tests", () => {
   });
 
   // defines a unit test that checks if the /api/books/:id endpoint returns a 400 status code when the ID is not a number.
-  it("should return a 400 error if the id is not a number", async () => {
+  it("Should return a 400 error if the id is not a number", async () => {
     // sends a GET request to the /api/books/:id endpoint and waits for a response using the supertest npm package
     const res = await request(app).get("/api/books/foo");
     expect(res.statusCode).toEqual(400); // status code is 400: bad request
@@ -48,17 +48,22 @@ describe("Chapter 3: API Tests", () => {
   });
 });
 
+//Create a new test suite using Jest’s describe method:
 describe("Chapter 4: API Tests", () => {
-  it("should return a 201 status code when adding a new book", async () => {
+  //checks if the /api/books POST endpoint returns a 201 status code for successful creations.
+  it("Should return a 201-status code when adding a new book.", async () => {
+    // sends a POST request to /api/recipes endpoint and waits for a response
     const res = await request(app).post("/api/books").send({
       id: 99,
       title: "Pragmatic APIs with NodeJS and Express",
       author: "Richard Krasso",
     });
+    //checks if the response status code is 201, indicating the request was successful.
     expect(res.statusCode).toEqual(201);
   });
 
-  it("should return a 400 status code when adding a new book with missing title", async () => {
+  // This defines a unit test that checks if the /api/books POST endpoint returns a 400 status code with a message of “Bad Request”.
+  it("Should return a 400-status code when adding a new book with missing title.", async () => {
     const res = await request(app).post("/api/books").send({
       id: 100,
       author: "Bernice",
@@ -67,7 +72,8 @@ describe("Chapter 4: API Tests", () => {
     expect(res.body.message).toEqual("Bad Request");
   });
 
-  it("should return a 204 status code when deleting a book", async () => {
+  //checks if the /api/books/:id endpoint returns a 204 status code when deleting book from our mock database.
+  it("Should return a 204-status code when deleting a book.", async () => {
     const res = await request(app).delete("/api/books/99");
     expect(res.statusCode).toEqual(204);
   });
@@ -88,6 +94,7 @@ describe("Chapter 5: API Tests", () => {
     expect(res.statusCode).toEqual(204);
   });
 
+  // checks if the /api/books/:id PUT endpoint returns a 204 status code for successful updates.
   it("Should return a 400-status code when using a non-numeric id.", async () => {
     const res = await request(app)
       .put("/api/books/foo")
@@ -98,6 +105,8 @@ describe("Chapter 5: API Tests", () => {
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual("Input must be a number");
   });
+
+  // checks if the /api/books/:id endpoint returns a 400 status code when the ID is not a number.
   it("Should return a 400-status code when updating a book with a missing title.", async () => {
     const res = await request(app).put("/api/books/1").send({
       author: "Test Author",

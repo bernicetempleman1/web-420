@@ -391,6 +391,7 @@ app.post("/api/books", async (req, res, next) => {
     const newBook = req.body;
     const expectedKeys = ["id", "title", "author"];
     const receivedKeys = Object.keys(newBook);
+    //checking if the book title is missing and throwing a 400 error if it is. Include a message that is appropriate for the 400 error
     if (
       !receivedKeys.every((key) => expectedKeys.includes(key)) ||
       receivedKeys.length !== expectedKeys.length
@@ -411,6 +412,7 @@ app.post("/api/books", async (req, res, next) => {
 app.delete("/api/books/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
+    // deletes a book with the matching id from the mock database and returns a 204-status code.
     const result = await books.deleteOne({ id: parseInt(id) });
     console.log("Result: ", result);
     res.status(204).send();
