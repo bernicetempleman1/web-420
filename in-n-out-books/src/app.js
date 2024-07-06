@@ -24,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", async (req, res, next) => {
   // HTML content for the landing page
   const html = `
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>In-N-Out-Books: Template</title>
@@ -110,26 +111,6 @@ app.get("/", async (req, res, next) => {
         background: #2a1f14;
       }
 
-      nav ul {
-        list-style: none;
-        text-align: center;
-      }
-
-      nav li {
-        display: block;
-        font-size: 1.5em;
-        font-family: Geneva, Arial, sans-serif;
-        font-weight: bold;
-      }
-
-      nav li a {
-        display: block;
-        color: #f6eee4;
-        padding: 0.5em 2em;
-        text-decoration: none;
-        border-top: 0.5px solid #f6eee4;
-      }
-
       /* Style rules for main content */
       main {
         padding: 2%;
@@ -175,18 +156,10 @@ app.get("/", async (req, res, next) => {
         }
 
         /* Tablet Viewport: Style rules for nav area */
-        nav li {
-          border-top: none;
-          display: inline-block;
-          font-size: 1.25em;
-        }
 
-        nav li a {
-          padding: 0.5em;
-        }
         nav a:hover {
-        color: #ffff00;
-        text-decoration: underline;
+          color: #ffff00;
+          text-decoration: underline;
         }
       }
 
@@ -277,6 +250,68 @@ app.get("/", async (req, res, next) => {
         color: #ffff00;
         text-decoration: underline;
       }
+
+      .navbar {
+        overflow: hidden;
+        background-color: #333;
+      }
+
+      .navbar a {
+        float: left;
+        font-size: 16px;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+
+      .subnav {
+        float: left;
+        overflow: hidden;
+        color: white;
+      }
+
+      .subnav .subnavbtn {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        background-color: inherit;
+        font-family: inherit;
+        margin: 0;
+      }
+
+      .navbar a:hover,
+      .subnav:hover .subnavbtn {
+        background-color: yellow;
+        color: black;
+      }
+
+      .subnav-content {
+        display: none;
+        position: absolute;
+        left: 0;
+        background-color: yellow;
+        color: white;
+        width: 100%;
+        z-index: 1;
+      }
+
+      .subnav-content a {
+        float: left;
+        color: black;
+        text-decoration: none;
+      }
+
+      .subnav-content a:hover {
+        background-color: #eee;
+        color: black;
+      }
+
+      .subnav:hover .subnav-content {
+        display: block;
+      }
     </style>
   </head>
   <body>
@@ -291,19 +326,25 @@ app.get("/", async (req, res, next) => {
       </header>
 
       <!-- Use the nav area to add hyperlinks to other pages within the website-->
-      <nav>
-        <ul>
-          <li><a href="http://localhost:3000">Home</a></li>
-          <li><a href="http://localhost:3000/api/books">Books</a></li>
-          <ul>
-            <li><a href="http://localhost:3000/api/books/1">Book 1</a></li>
-            <li><a href="http://localhost:3000/api/books/2">Book 2</a></li>
-            <li><a href="http://localhost:3000/api/books/3">Book 3</a></li>
-            <li><a href="http://localhost:3000/api/books/4">Book 4</a></li>
-            <li><a href="http://localhost:3000/api/books/5">Book 5</a></li>
-          </ul>
-        </ul>
-      </nav>
+
+      <div class="navbar">
+        <a href="http://localhost:3000">>Home</a>
+
+        <a href="http://localhost:3000/api/books">Books</a>
+
+        <div class="subnav">
+          <button class="subnavbtn">
+            Book by id <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="subnav-content">
+            <a href="http://localhost:3000/api/books/1">Book 1</a>
+            <a href="http://localhost:3000/api/books/2">Book 2</a>
+            <a href="http://localhost:3000/api/books/3">Book 3</a>
+            <a href="http://localhost:3000/api/books/4">Book 4</a>
+            <a href="http://localhost:3000/api/books/5">Book 5</a>
+          </div>
+        </div>
+      </div>
 
       <!-- Use the main area to add the main content to the webpage -->
       <main>
