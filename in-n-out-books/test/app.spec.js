@@ -127,7 +127,7 @@ describe("Chapter 6: API Tests", () => {
     expect(res.statusCode).toEqual(200);
     expect(res.body.message).toEqual("Authentication successful");
   });
-});
+
 
 it("should return a 401-status code with ‘Unauthorized’ message when logging in with incorrect credentials.", async () => {
   const res = await request(app).post("/api/login").send({
@@ -151,4 +151,4 @@ it("It should return a 400-status code with ‘Bad Request’ when missing email
   expect(res2.body.message).toEqual("Bad Request");
 });
 
-// end chapter 6
+});// end chapter 6
