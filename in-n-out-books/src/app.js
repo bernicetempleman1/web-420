@@ -530,10 +530,10 @@ app.post("/api/login", async (req, res, next) => {
         res
           .status(200)
           .send({ user: authUser, message: "Authentication successful" });
-      } else {
+      } else { //password incorrect
         res.status(401).send({ user: authUser, message: "Unauthorized" });
       }
-    } else {
+    } else { //user not registered
       res.status(401).send({ user: authUser, message: "Unauthorized" });
     }
   } catch (err) {
