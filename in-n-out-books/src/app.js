@@ -10,6 +10,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const createError = require("http-errors");
 const books = require("../database/books");
+const users = require("../database/users");
 
 //Create an express application by defining a variable and assigning it the Express module.
 const app = express(); // Creates an Express application
@@ -495,6 +496,48 @@ app.put("/api/books/:id", async (req, res, next) => {
       console.log("Book not found", err.message);
       return next(createError(404, "Book not found"));
     }
+    console.error("Error: ", err.message);
+    next(err);
+  }
+});
+
+app.post("/api/login", async (req, res, next) => {
+  console.log("Request body: ", req.body);
+  try {
+    const user = req.body;
+    const expectedKeys = ["email", "password"];
+    const receivedKeys = Object.keys(user);
+    if (
+      !receivedKeys.every((key) => expectedKeys.includes(key)) ||
+      receivedKeys.length !== expectedKeys.length
+    ) {
+      console.error("Bad Request", receivedKeys);
+      return next(createError(400, "Bad Request"));
+    }
+    let authUser;
+    try {
+      authUser = await users.findOne({ email: user.email });
+    } catch (err) {
+      authUser = null;
+    }
+    if (authUser) {
+      //get stored password from db
+      let hashpw = authUser.password;
+
+      // compare input pw to stored pw
+      let result = bcrypt.compareSync(user.password, hashpw);
+      if (result) {
+        res
+          .status(200)
+          .send({ user: authUser, message: "Authentication successful" });
+      } else {
+        res.status(401).send({ user: authUser, message: "Unauthorized" });
+      }
+    } else {
+      res.status(401).send({ user: authUser, message: "Unauthorized" });
+    }
+  } catch (err) {
+    console.error("Error: ", err);
     console.error("Error: ", err.message);
     next(err);
   }

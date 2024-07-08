@@ -16,7 +16,6 @@ const app = express(); // Creates an Express application
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//
 app.get("/", async (req, res, next) => {
   // HTML content for the landing page
   const html = `
@@ -162,15 +161,36 @@ app.put("/api/recipes/:id", async (req, res, next) => {
 });
 
 app.post("/api/register", async (req, res, next) => {
+  console.log("Request body: ", req.body);
   try {
-    const { email, password } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    const user = await users.insertOne({
-      email: email,
+    const user = req.body;
+    const expectedKeys = ["email", "password"];
+    const receivedKeys = Object.keys(user);
+    if (
+      !receivedKeys.every((key) => expectedKeys.includes(key)) ||
+      receivedKeys.length !== expectedKeys.length
+    ) {
+      console.error("Bad Request: Missing keys or extra keys", receivedKeys);
+      return next(createError(400, "Bad Request"));
+    }
+    let duplicateUser; 
+    try {
+      duplicateUser = await users.findOne({ email: user.email });
+    } catch (err) {
+      duplicateUser = null;
+    }
+    if (duplicateUser) {
+      console.error("Conflict: User already exists");
+      return next(createError(409, "Conflict"));
+    }
+    const hashedPassword = bcrypt.hashSync(user.password, 10);
+    const newUser = await users.insertOne({
+      email: user.email,
       password: hashedPassword,
     });
-    res.status(200).send({ user: user, message: "Registration successful" });
+    res.status(200).send({ user: newUser, message: "Registration successful" });
   } catch (err) {
+    console.error("Error: ", err);
     console.error("Error: ", err.message);
     next(err);
   }
