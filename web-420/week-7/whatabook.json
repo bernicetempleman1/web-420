@@ -1,0 +1,62 @@
+{
+  "book": [
+    {
+      "id": "ISBN-9781517295102",
+      "title": "The Design of Web APIs",
+      "author": "Arnaud Lauret",
+      "price": 32.99,
+      "description": "A book about web API design",
+      "supplier": {
+        "reference": "MANPUB",
+        "name": "Manning Publications"
+      }
+    },
+    {
+      "id": "ISBN-9780321826626",
+      "title": "NoSQL Distilled",
+      "author": "Pramod J. Sadalage & Martin Fowler",
+      "price": 19.79,
+      "description": "A book about NoSQL databases",
+      "supplier": {
+        "reference": "ADDWES",
+        "name": "Addison-Wesley"
+      }
+    }
+  ],
+  "customer": [
+    {
+      "_id": "c1234567890123456789012345678901",
+      "firstName": "Hermione",
+      "lastName": "Granger",
+      "wishlist": [
+        {
+          "_id": "w1234567890123456789012345678901",
+          "customerId": "c1234567890123456789012345678901",
+          "bookId": "ISBN-9781517295102"
+        },
+        {
+          "_id": "w1234567890123456789012345678902",
+          "customerId": "c1234567890123456789012345678901",
+          "bookId": "ISBN-9780321826626"
+        }
+      ]
+    },
+    {
+      "_id": "c1234567890123456789012345678902",
+      "firstName": "Harry",
+      "lastName": "Potter",
+      "wishlist": [
+        {
+          "_id": "w1234567890123456789012345678903",
+          "customerId": "c1234567890123456789012345678902",
+          "bookId": "ISBN-9781517295102"
+        },
+        {
+          "_id": "w1234567890123456789012345678904",
+          "customerId": "c1234567890123456789012345678902",
+          "bookId": "ISBN-9780321826626"
+        }
+      ]
+    }
+  ]
+}

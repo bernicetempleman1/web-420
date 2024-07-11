@@ -119,6 +119,7 @@ describe("Chapter 5: API Tests", () => {
 
 //Create a new test suite using Jest’s describe method:
 describe("Chapter 6: API Tests", () => {
+  // login user and return a status 200 for success
   it("should log a user in and return a 200-status with ‘Authentication successful’ message", async () => {
     const res = await request(app).post("/api/login").send({
       email: "harry@hogwarts.edu",
@@ -128,7 +129,7 @@ describe("Chapter 6: API Tests", () => {
     expect(res.body.message).toEqual("Authentication successful");
   });
 
-
+// return a 401-status code with ‘Unauthorized’ message when logging in with incorrect credentials
 it("should return a 401-status code with ‘Unauthorized’ message when logging in with incorrect credentials.", async () => {
   const res = await request(app).post("/api/login").send({
     email: "harry@hogwarts.edu",
@@ -138,6 +139,7 @@ it("should return a 401-status code with ‘Unauthorized’ message when logging
   expect(res.body.message).toEqual("Unauthorized");
 });
 
+// return a 400-status code with ‘Bad Request’ when missing email or password.
 it("It should return a 400-status code with ‘Bad Request’ when missing email or password.", async () => {
   const res = await request(app).post("/api/login").send({
     email: "harry@hogwarts.edu",
