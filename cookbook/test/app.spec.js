@@ -112,30 +112,76 @@ describe("Chapter 6: API Tests", () => {
     expect(res.statusCode).toEqual(200);
     expect(res.body.message).toEqual("Registration successful");
   });
-});
 
-it("should return a 409 status code with a message of 'Conflict' when registering a user with a duplicate email", async () => {
-  const res = await request(app).post("/api/register").send({
-    email: "harry@hogwarts.edu",
-    password: "potter",
+  it("should return a 409 status code with a message of 'Conflict' when registering a user with a duplicate email", async () => {
+    const res = await request(app).post("/api/register").send({
+      email: "harry@hogwarts.edu",
+      password: "potter",
+    });
+    expect(res.statusCode).toEqual(409);
+    expect(res.body.message).toEqual("Conflict");
   });
-  expect(res.statusCode).toEqual(409);
-  expect(res.body.message).toEqual("Conflict");
-});
 
-it("should return a 400 status code when registering a new user with too many or too few parameter values", async () => {
-  const res = await request(app).post("/api/register").send({
-    email: "cedric@hogwarts.edu",
-    password: "diggory",
-    extraKey: "extra",
+  it("should return a 400 status code when registering a new user with too many or too few parameter values", async () => {
+    const res = await request(app).post("/api/register").send({
+      email: "cedric@hogwarts.edu",
+      password: "diggory",
+      extraKey: "extra",
+    });
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Bad Request");
+    const res2 = await request(app).post("/api/register").send({
+      email: "cedric@hogwarts.edu",
+    });
+    expect(res2.statusCode).toEqual(400);
+    expect(res2.body.message).toEqual("Bad Request");
   });
-  expect(res.statusCode).toEqual(400);
-  expect(res.body.message).toEqual("Bad Request");
-  const res2 = await request(app).post("/api/register").send({
-    email: "cedric@hogwarts.edu",
-  });
-  expect(res2.statusCode).toEqual(400);
-  expect(res2.body.message).toEqual("Bad Request");
-});
+}); // end chapter 6
 
-// end chapter 6
+//Create a new test suite using Jest’s describe method:
+describe("Chapter 7: API Tests", () => {
+  it("should return a 200 status code with a message of 'Password reset successful' when resetting a user's password", async () => {
+    const res = await request(app)
+      .post("/api/users/harry@hogwarts.edu/password-reset")
+      .send({
+        securityQuestions: [
+          { answer: "Hedwig" },
+          { answer: "Quidditch Through the Ages" },
+          { answer: "Evans" },
+        ],
+        newPassword: "password",
+      });
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.message).toEqual("Password reset successful");
+  });
+
+  it("should return a 400 status code with a message of 'Bad Request' when the request body fails ajv validation", async () => {
+    const res = await request(app)
+      .post("/api/users/harry@hogwarts.edu/password-reset")
+      .send({
+        securityQuestions: [
+          { answer: "Hedwig", question: "What is your pet's name?" },
+          { answer: "Quidditch Through the Ages", myName: "Harry Potter" },
+        ],
+        newPassword: "password",
+      });
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Bad Request");
+  });
+
+  it("should return 401 status code with a message of 'Unauthorized' when the security answers are incorrect", async () => {
+    const res = await request(app)
+      .post("/api/users/harry@hogwarts.edu/password-reset")
+      .send({
+        securityQuestions: [
+          { answer: "Flufy" },
+          { answer: "Quidditch Through the Ages" },
+          { answer: "Evans" },
+        ],
+        newPassword: "password",
+      });
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("Unauthorized");
+  });
+}); // end chapter7

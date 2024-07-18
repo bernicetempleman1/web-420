@@ -10,7 +10,6 @@
 const app = require("../src/app");
 const request = require("supertest");
 
-
 //Create a new test suite using Jest’s describe method:
 describe("Chapter 3: API Tests", () => {
   it("Should return an array of books.", async () => {
@@ -87,7 +86,8 @@ describe("Chapter 5: API Tests", () => {
     // sends a PUT request to /api/recipes/:id endpoint and waits for a response, using the supertest npm package.
     const res = await request(app)
       .put("/api/books/1")
-      .send({ //{ id: 1, title: "The Fellowship of the Ring", author: "J.R.R. Tolkien" },
+      .send({
+        //{ id: 1, title: "The Fellowship of the Ring", author: "J.R.R. Tolkien" },
         title: "The Fellowship of the Ring",
         author: ["J.R.R. Tolkien"],
       });
@@ -97,12 +97,10 @@ describe("Chapter 5: API Tests", () => {
 
   // checks if the /api/books/:id PUT endpoint returns a 204 status code for successful updates.
   it("Should return a 400-status code when using a non-numeric id.", async () => {
-    const res = await request(app)
-      .put("/api/books/foo")
-      .send({
-        title: "Test Book",
-        author: "test",
-      });
+    const res = await request(app).put("/api/books/foo").send({
+      title: "Test Book",
+      author: "test",
+    });
     expect(res.statusCode).toEqual(400);
     expect(res.body.message).toEqual("Input must be a number");
   });
@@ -129,28 +127,74 @@ describe("Chapter 6: API Tests", () => {
     expect(res.body.message).toEqual("Authentication successful");
   });
 
-// return a 401-status code with ‘Unauthorized’ message when logging in with incorrect credentials
-it("should return a 401-status code with ‘Unauthorized’ message when logging in with incorrect credentials.", async () => {
-  const res = await request(app).post("/api/login").send({
-    email: "harry@hogwarts.edu",
-    password: "harry",
+  // return a 401-status code with ‘Unauthorized’ message when logging in with incorrect credentials
+  it("should return a 401-status code with ‘Unauthorized’ message when logging in with incorrect credentials.", async () => {
+    const res = await request(app).post("/api/login").send({
+      email: "harry@hogwarts.edu",
+      password: "harry",
+    });
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("Unauthorized");
   });
-  expect(res.statusCode).toEqual(401);
-  expect(res.body.message).toEqual("Unauthorized");
-});
 
-// return a 400-status code with ‘Bad Request’ when missing email or password.
-it("It should return a 400-status code with ‘Bad Request’ when missing email or password.", async () => {
-  const res = await request(app).post("/api/login").send({
-    email: "harry@hogwarts.edu",
+  // return a 400-status code with ‘Bad Request’ when missing email or password.
+  it("It should return a 400-status code with ‘Bad Request’ when missing email or password.", async () => {
+    const res = await request(app).post("/api/login").send({
+      email: "harry@hogwarts.edu",
+    });
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Bad Request");
+    const res2 = await request(app).post("/api/login").send({
+      email: "harry@hogwarts.edu",
+    });
+    expect(res2.statusCode).toEqual(400);
+    expect(res2.body.message).toEqual("Bad Request");
   });
-  expect(res.statusCode).toEqual(400);
-  expect(res.body.message).toEqual("Bad Request");
-  const res2 = await request(app).post("/api/login").send({
-    email: "harry@hogwarts.edu",
-  });
-  expect(res2.statusCode).toEqual(400);
-  expect(res2.body.message).toEqual("Bad Request");
-});
+}); // end chapter 6
 
-});// end chapter 6
+//Create a new test suite using Jest’s describe method:
+describe("Chapter 7: API Tests", () => {
+  // It should return a 200 status with ‘Security questions successfully answered’ message.
+  it("should return a 200 status code with a message of 'Security questions successfully answered' ", async () => {
+    const res = await request(app)
+      .post("/api/users/harry@hogwarts.edu/verify-security-question")
+      .send({
+        securityQuestions: [
+          { answer: "Hedwig" },
+          { answer: "Quidditch Through the Ages" },
+          { answer: "Evans" },
+        ],
+      });
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.message).toEqual("Security questions successfully answered");
+  });
+
+  // It should return a 400 status code with ‘Bad Request’ message when the request body fails ajv validation.
+  it("should return a 400 status code with a message of 'Bad Request' when the request body fails ajv validation", async () => {
+    const res = await request(app)
+      .post("/api/users/harry@hogwarts.edu/verify-security-question")
+      .send({
+        securityQuestions: [
+          { answer: "Hedwig", question: "What is your pet's name?" },
+          { answer: "Quidditch Through the Ages", myName: "Harry Potter" },
+        ],
+      });
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.message).toEqual("Bad Request");
+  });
+
+  // It should return a 401 status code with ‘Unauthorized’ message when the security questions are incorrect.
+  it("should return 401 status code with a message of 'Unauthorized' when the security answers are incorrect", async () => {
+    const res = await request(app)
+      .post("/api/users/harry@hogwarts.edu/verify-security-question")
+      .send({
+        securityQuestions: [
+          { answer: "Flufy" },
+          { answer: "Quidditch Through the Ages" },
+          { answer: "Evans" },
+        ],
+      });
+    expect(res.statusCode).toEqual(401);
+    expect(res.body.message).toEqual("Unauthorized");
+  });
+}); // end chapter7

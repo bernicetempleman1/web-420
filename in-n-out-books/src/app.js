@@ -12,6 +12,11 @@ const createError = require("http-errors");
 const books = require("../database/books");
 const users = require("../database/users");
 
+// require statement for the Ajv npm package.
+const Ajv = require("ajv");
+//creates a new instance of the Ajv class
+const ajv = new Ajv();
+
 //Create an express application by defining a variable and assigning it the Express module.
 const app = express(); // Creates an Express application
 
@@ -531,10 +536,12 @@ app.post("/api/login", async (req, res, next) => {
         res
           .status(200)
           .send({ user: authUser, message: "Authentication successful" });
-      } else { //password incorrect
+      } else {
+        //password incorrect
         res.status(401).send({ user: authUser, message: "Unauthorized" });
       }
-    } else { //user not registered
+    } else {
+      //user not registered
       res.status(401).send({ user: authUser, message: "Unauthorized" });
     }
   } catch (err) {
@@ -543,6 +550,74 @@ app.post("/api/login", async (req, res, next) => {
     next(err);
   }
 });
+
+//POST route to verify security questions
+app.post(
+  "/api/users/:email/verify-security-question",
+  async (req, res, next) => {
+    try {
+      // creates an Ajv JSON Schema validator, which will be used to validate the request body of our POST request.
+      const securityQuestionsSchema = {
+        type: "object",
+        properties: {
+          securityQuestions: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                answer: { type: "string" },
+              },
+              required: ["answer"],
+              additionalProperties: false,
+            },
+          },
+        },
+        required: ["securityQuestions"],
+        additionalProperties: false,
+      };
+
+      const { email } = req.params;
+      const { securityQuestions } = req.body;
+
+      // compiles the Ajv JSON Schema and prepares it for validation
+      const validate = ajv.compile(securityQuestionsSchema);
+      // uses the Ajv JSON Schema to validate it against the request body.
+      const valid = validate(req.body);
+
+      // checks if the validation passed
+      if (!valid) {
+        // if not, it generates a 400 error object and forwards it to our middleware error handler.
+        console.error("Bad Request: Invalid request body", validate.errors);
+        return next(createError(400, "Bad Request"));
+      }
+
+      const user = await users.findOne({ email: email });
+
+      // checks the saved security question answers against what’s being passed in the body of the request.
+      if (
+        securityQuestions[0].answer !== user.securityQuestions[0].answer ||
+        securityQuestions[1].answer !== user.securityQuestions[1].answer ||
+        securityQuestions[2].answer !== user.securityQuestions[2].answer
+      ) {
+        // If they do not match, a 401 error is generated with a message of “Unauthorized,”
+        console.error("Unauthorized: Security questions do not match");
+        //  which is then passed to the middleware’s errorhandler.
+        return next(createError(401, "Unauthorized"));
+      }
+
+      // security questions match
+      res
+        .status(200)
+        .send({
+          message: "Security questions successfully answered",
+          user: user,
+        });
+    } catch (err) {
+      console.error("Error: ", err.message);
+      next(err);
+    }
+  }
+);
 
 // Add middleware functions to handle 404 and 500 errors.
 // catch 404 and forward to error handler
