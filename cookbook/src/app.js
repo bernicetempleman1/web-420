@@ -62,6 +62,22 @@ oven.<br>3. Fill the taco shells with beef, lettuce, and cheese.</p>
 dish.<br>2. Bake at 375 degrees for 45 minutes.<br>3. Let cool before
 serving.</p>
 </div>
+
+<form action="/api/register" method="post" target="_blank">
+  <label for="email">email:</label>
+  <input type="text" id="email" name="email"><br><br>
+  <label for="password">password:</label>
+  <input type="text" id="password" name="password"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<p>Click on the submit button, and the form will be submittied using the POST method.</p>
+
+</body>
+</html>
+
+
+
 </main>
 </div>
 </body>

@@ -318,6 +318,10 @@ app.get("/", async (req, res, next) => {
       .subnav:hover .subnav-content {
         display: block;
       }
+      .container {
+        display: grid;
+        place-items: center;
+      }
     </style>
   </head>
   <body>
@@ -334,20 +338,19 @@ app.get("/", async (req, res, next) => {
       <!-- Use the nav area to add hyperlinks to other pages within the website-->
 
       <div class="navbar">
-        <a href="http://localhost:3000">>Home</a>
-
-        <a href="http://localhost:3000/api/books">Books</a>
+        <a href="">>Home</a>
+        <a href="/api/books">Books</a>
 
         <div class="subnav">
           <button class="subnavbtn">
             Book by id <i class="fa fa-caret-down"></i>
           </button>
           <div class="subnav-content">
-            <a href="http://localhost:3000/api/books/1">Book 1</a>
-            <a href="http://localhost:3000/api/books/2">Book 2</a>
-            <a href="http://localhost:3000/api/books/3">Book 3</a>
-            <a href="http://localhost:3000/api/books/4">Book 4</a>
-            <a href="http://localhost:3000/api/books/5">Book 5</a>
+            <a href="/api/books/1">Book 1</a>
+            <a href="/api/books/2">Book 2</a>
+            <a href="/api/books/3">Book 3</a>
+            <a href="/api/books/4">Book 4</a>
+            <a href="/api/books/5">Book 5</a>
           </div>
         </div>
       </div>
@@ -377,6 +380,33 @@ app.get("/", async (req, res, next) => {
           <!-- Paragraph element: Use the paragraph below to describe the latest book-->
           <p>Title: "The Return of the King" by author: J.R.R. Tolkien</p>
         </div>
+
+        <div class="container">
+          <h2>Login</h2>
+          <form action="/api/login" method="post" target="_blank">
+            <label for="email">e-mail  :</label>
+              <input type="text" id="email" name="email"><br><br>
+            <label for="password">password:</label>
+              <input type="text" id="password" name="password"><br><br>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+        <br>
+        <br>
+
+        <div class="container">
+          <h2>Verify Harry's Security Question</h2>
+          <form action="/api/users/harry@hogwarts.edu/verify-security-question" method="post" target="_blank">
+            <label for="answer">What is your pet's name? </label>
+              <input type="text" id="answer" name="securityQuestions[1][answer]"><br><br>
+            <label for "answer">What is your favorite book?", </label>
+              <input type="text" id="answer" name="securityQuestions[2][answer]"><br><br>
+            <label for="answer">What is your mother's maiden name</label>
+              <input type="text" id="answer" name=securityQuestions[3][answer]"><br><br>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+
       </main>
 
       <!-- Use the footer area to add webpage footer content-->
@@ -606,12 +636,10 @@ app.post(
       }
 
       // security questions match
-      res
-        .status(200)
-        .send({
-          message: "Security questions successfully answered",
-          user: user,
-        });
+      res.status(200).send({
+        message: "Security questions successfully answered",
+        user: user,
+      });
     } catch (err) {
       console.error("Error: ", err.message);
       next(err);
