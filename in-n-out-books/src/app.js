@@ -382,91 +382,126 @@ app.get("/", async (req, res, next) => {
           <!-- Paragraph element: Use the paragraph below to describe the latest book-->
           <p>Title: "The Return of the King" by author: J.R.R. Tolkien</p>
         </div>
-        <br>
-        <br>
+        <br />
+        <br />
 
         <div class="container">
           <h2>Add a Book</h2>
           <form action="/api/books" method="post" target="_blank">
             <label for="id">id:</label>
-              <input type="text" id="id" name="id"><br><br>
+            <input type="text" id="id" name="id" /><br /><br />
             <label for="title">title:</label>
-              <input type="text" id="title" name="title"><br><br>
+            <input type="text" id="title" name="title" /><br /><br />
             <label for="author">author:</label>
-              <input type="text" id="author" name="author"><br><br>
-            <input type="submit" value="Submit">
+            <input type="text" id="author" name="author" /><br /><br />
+            <input type="submit" value="Submit" />
           </form>
         </div>
-        <br>
-        <br>
+        <br />
+        <br />
 
         <div class="container">
           <h2>Add a Book without a Title</h2>
           <form action="/api/books" method="post" target="_blank">
-            <label for="id">id:</label>
-              <input type="text" id="id" name="id"><br><br>
-            <label for="author">author:</label>
-              <input type="text" id="author" name="author"><br><br>
-            <input type="submit" value="Submit">
+            <label for="id2">id:</label>
+            <input type="text" id="id2" name="id" /><br /><br />
+            <label for="author2">author:</label>
+            <input type="text" id="author2" name="author" /><br /><br />
+            <input type="submit" value="Submit" />
           </form>
         </div>
-        <br>
-        <br>
+        <br />
+        <br />
 
         <div class="container">
           <h2>Login without a password</h2>
           <form action="/api/login" method="post" target="_blank">
-            <label for="email">e-mail  :</label>
-              <input type="text" id="email" name="email"><br><br>
-            <input type="submit" value="Submit">
+            <label for="email2">e-mail :</label>
+            <input type="text" id="email2" name="email" /><br /><br />
+            <input type="submit" value="Submit" />
           </form>
         </div>
-        <br>
-        <br>
+        <br />
+        <br />
 
         <div class="container">
           <h2>Login</h2>
           <form action="/api/login" method="post" target="_blank">
-            <label for="email">e-mail  :</label>
-              <input type="text" id="email" name="email"><br><br>
+            <label for="email">e-mail :</label>
+            <input type="text" id="email" name="email" /><br /><br />
             <label for="password">password:</label>
-              <input type="text" id="password" name="password"><br><br>
-            <input type="submit" value="Submit">
+            <input type="text" id="password" name="password" /><br /><br />
+            <input type="submit" value="Submit" />
           </form>
         </div>
-        <br>
-        <br>
+        <br />
+        <br />
 
         <div class="container">
           <h2>Verify Harry's Security Questions with a Bad Request</h2>
-          <form action="/api/users/harry@hogwarts.edu/verify-security-question" method="post" target="_blank">
-            <label for="answer">What is your pet's name? </label>
-              <input type="text" id="answer" name="securityQuestions[1][answer]"><br><br>
-            <label for "question">Hedwig"</label>
-              <input type="text" id="question" name="securityQuestions[2][question]"><br><br>
-            <label for="answer">What is your mother's maiden name?</label>
-              <input type="text" id="answer" name=securityQuestions[3][answer]"><br><br>
+          <form
+            action="/api/users/harry@hogwarts.edu/verify-security-question"
+            method="post"
+            target="_blank"
+          >
+            <label for="answer2">What is your pet's name? </label>
+            <input
+              type="text"
+              id="answer2"
+              name="securityQuestions[1][answer]"
+            /><br /><br />
+            <label for="question">Hedwig</label>
+            <input
+              type="text"
+              id="question"
+              name="securityQuestions[2][question]"
+            /><br /><br />
+            <label for="answer3">What is your mother's maiden name?</label>
+            <input
+              type="text"
+              id="answer3"
+              name="securityQuestions[3][answer]"
+            /><br /><br />
             <label for="myName">What is your name</label>
-              <input type="text" id="myName" name=securityQuestions[3][myName]"><br><br>
-            <input type="submit" value="Submit">
+            <input
+              type="text"
+              id="myName"
+              name="securityQuestions[3][myName]"
+            /><br /><br />
+            <input type="submit" value="Submit" />
           </form>
         </div>
-        <br>
-        <br>
+        <br />
+        <br />
 
         <div class="container">
           <h2>Verify Harry's Security Question</h2>
-          <form action="/api/users/harry@hogwarts.edu/verify-security-question" method="post" target="_blank">
+          <form
+            action="/api/users/harry@hogwarts.edu/verify-security-question"
+            method="post"
+            target="_blank"
+          >
             <label for="answer">What is your pet's name? </label>
-              <input type="text" id="answer" name="securityQuestions[1][answer]"><br><br>
-            <label for "answer">What is your favorite book?", </label>
-              <input type="text" id="answer" name="securityQuestions[2][answer]"><br><br>
-            <label for="answer">What is your mother's maiden name</label>
-              <input type="text" id="answer" name=securityQuestions[3][answer]"><br><br>
-            <input type="submit" value="Submit">
+            <input
+              type="text"
+              id="answer"
+              name="securityQuestions[1][answer]"
+            /><br /><br />
+            <label for="answer10">What is your favorite book?</label>
+            <input
+              type="text"
+              id="answer10"
+              name="securityQuestions[2][answer]"
+            /><br /><br />
+            <label for="answer11">What is your mother's maiden name</label>
+            <input
+              type="text"
+              id="answer11"
+              name="securityQuestions[3][answer]"
+            /><br /><br />
+            <input type="submit" value="Submit" />
           </form>
         </div>
-
       </main>
 
       <!-- Use the footer area to add webpage footer content-->
