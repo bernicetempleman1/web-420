@@ -380,6 +380,23 @@ app.get("/", async (req, res, next) => {
           <!-- Paragraph element: Use the paragraph below to describe the latest book-->
           <p>Title: "The Return of the King" by author: J.R.R. Tolkien</p>
         </div>
+        <br>
+        <br>
+
+          <div class="container">
+          <h2>Add a Book</h2>
+          <form action="/api/books" method="post" target="_blank">
+            <label for="id">id:</label>
+              <input type="text" id="id" name="id"><br><br>
+            <label for="title">title:</label>
+              <input type="text" id="title" name="title"><br><br>
+            <label for="author">author:</label>
+              <input type="text" id="author" name="author"><br><br>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+        <br>
+        <br>
 
         <div class="container">
           <h2>Login</h2>

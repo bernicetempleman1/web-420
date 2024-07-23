@@ -89,7 +89,7 @@ describe("Chapter 5: API Tests", () => {
       .send({
         //{ id: 1, title: "The Fellowship of the Ring", author: "J.R.R. Tolkien" },
         title: "The Fellowship of the Ring",
-        author: ["J.R.R. Tolkien"],
+        author: "J.R.R. Tolkien",
       });
     // checks if the response status code is 204, indicating the request was successful.
     expect(res.statusCode).toEqual(204);
