@@ -15,19 +15,21 @@ const methodOverride = require('method-override');
 
 // require statement for the Ajv npm package.
 const Ajv = require("ajv");
+
 //creates a new instance of the Ajv class
 const ajv = new Ajv();
 
 //Create an express application by defining a variable and assigning it the Express module.
 const app = express(); // Creates an Express application
 
+//methodOverride for HTML PUT and DELETE
+app.use(methodOverride('_method'));
+
 // parse incoming requests with JSON payloads
 app.use(express.json());
 
 // parse incoming requests with urlencoded payloads
 app.use(express.urlencoded({ extended: true }));
-
-app.use(methodOverride('_method'));
 
 //Add a GET route for the root URL (“/”). This route should return an HTML response with a fully designed landing page that represents the “in-n-out-books” project.
 app.get("/", async (req, res, next) => {
@@ -36,7 +38,7 @@ app.get("/", async (req, res, next) => {
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>In-N-Out-Books: Template</title>
+    <title>In-N-Out-Books</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
@@ -379,7 +381,7 @@ app.get("/", async (req, res, next) => {
         </div>
 
         <div id="latest">
-          <!-- Heading for the latest rescue -->
+          <!-- Heading for the latest book -->
           <h2>Our Latest Book: Return of the King</h2>
 
           <!-- Paragraph element: Use the paragraph below to describe the latest book-->
@@ -387,6 +389,51 @@ app.get("/", async (req, res, next) => {
         </div>
         <br />
         <br />
+
+        <h2>CRUD Testing</h2>
+        <p>
+          The Top navigation bar and the following forms allows the testing of
+          the following routes:
+        </p>
+        <ol>
+          <li>Return an array of books</li>
+          <li>Return a single book</li>
+          <li>Return a 400 error if the id is not a number.</li>
+          <li>Return a 201-status code when adding a new book.</li>
+          <li>
+            Return a 400-status code when adding a new book with missing title.
+          </li>
+          <li>Return a 204-status code when deleting a book.</li>
+          <li>Update a book and return a 204-status code.</li>
+          <li>Return a 400-status code when using a non-numeric id.</li>
+          <li>
+            Return a 400-status code when updating a book with a missing title.
+          </li>
+          <li>
+            Log a user in and return a 200-status with ‘Authentication
+            successful’ message
+          </li>
+          <li>
+            Return a 401-status code with ‘Unauthorized’ message when logging in
+            with incorrect credentials.
+          </li>
+          <li>
+            Return a 400-status code with ‘Bad Request’ when missing email or
+            password.
+          </li>
+          <li>
+            Return a 200 status code with a message of 'Security questions
+            successfully answered
+          </li>
+          <li>
+            Return a 400 status code with a message of 'Bad Request' when the
+            request body fails ajv validation
+          </li>
+          <li>
+            Return 401 status code with a message of 'Unauthorized' when the
+            security answers are incorrect
+          </li>
+        </ol>
 
         <div class="container">
           <h2>Add a Book</h2>
@@ -411,6 +458,88 @@ app.get("/", async (req, res, next) => {
             <label for="author2">author:</label>
             <input type="text" id="author2" name="author" /><br /><br />
             <input type="submit" value="Submit" />
+          </form>
+        </div>
+        <br />
+        <br />
+
+        <div class="container">
+          <h2>Delete Book 5</h2>
+          <form
+            action="/api/books/5?_method=DELETE"
+            method="post"
+            target="_blank"
+          >
+            <input type="hidden" name="_method" value="DELETE" />
+            <input type="submit" value="Delete 5" />
+          </form>
+        </div>
+        <br />
+        <br />
+
+        <div class="container">
+          <h2>Delete Book 99</h2>
+          <form
+            action="/api/books/99?_method=DELETE"
+            method="post"
+            target="_blank"
+          >
+            <input type="hidden" name="_method" value="DELETE" />
+            <input type="submit" value="Delete 99" />
+          </form>
+        </div>
+        <br />
+        <br />
+
+        <div class="container">
+          <h2>Update Book 1</h2>
+          <form action="/api/books/1?_method=PUT" method="POST" target="_blank">
+            <input type="hidden" name="_method" value="PUT" />
+            <input type="hidden" id="title4" name="title" /><br /><br />
+            <input type="hidden" id="author4" name="author" /><br /><br />
+            <input type="submit" value="Update 1 with values" />
+          </form>
+        </div>
+        <br />
+        <br />
+
+        <div class="container">
+          <h2>Update Book 1 (no title and author)</h2>
+          <form action="/api/books/1?_method=PUT" method="POST" target="_blank">
+            <input type="hidden" name="_method" value="PUT" />
+            <input type="submit" value="Update 1 with no title and no author" />
+          </form>
+        </div>
+        <br />
+        <br />
+
+        <div class="container">
+          <h2>Update Book 99 with title and author (DNE)</h2>
+          <form
+            action="/api/books/99?_method=PUT"
+            method="post"
+            target="_blank"
+          >
+            <input type="hidden" name="_method" value="PUT" />
+            <input type="hidden" id="title3" name="title" /><br /><br />
+            <input type="hidden" id="author3" name="author" /><br /><br />
+            <input type="submit" value="Update 99 with title and author" />
+          </form>
+        </div>
+        <br />
+        <br />
+
+        <div class="container">
+          <h2>Update Book Foo (not a Number)</h2>
+          <form
+            action="/api/books/foo?_method=PUT"
+            method="post"
+            target="_blank"
+          >
+            <input type="hidden" name="_method" value="PUT" />
+            <input type="hidden" id="title1" name="title" /><br /><br />
+            <input type="hidden" id="author1" name="author" /><br /><br />
+            <input type="submit" value="Update foo with title and author" />
           </form>
         </div>
         <br />
@@ -589,13 +718,14 @@ app.delete("/api/books/:id", async (req, res, next) => {
     const { id } = req.params;
     // deletes a book with the matching id from the mock database and returns a 204-status code.
     const result = await books.deleteOne({ id: parseInt(id) });
-    console.log("Result: ", result);
+    console.log("Book deletion Success. Result: ", result);
     res.status(204).send();
   } catch (err) {
     if (err.message === "No matching item found") {
-      return next(createError(404, "Book not found"));
+      console.error("Delete Error: ", err.message);
+      return next(createError(404, "Delete failed. Book not found"));
     }
-    console.error("Error: ", err.message);
+    console.error("Delete Error: ", err.message);
     next(err);
   }
 });
@@ -612,24 +742,24 @@ app.put("/api/books/:id", async (req, res, next) => {
       return next(createError(400, "Input must be a number"));
     }
     // including checking if the book title is missing and throwing a 400 error if it is with an applicable error message
-    const expectedKeys = ["title", "author"];
+    const expectedKeys = [ "title", "author"];
     const receivedKeys = Object.keys(book);
     if (
       !receivedKeys.every((key) => expectedKeys.includes(key)) ||
       receivedKeys.length !== expectedKeys.length
     ) {
-      console.error("Bad Request: Missing keys", receivedKeys);
+      console.error("Book Update: Bad Request: Missing keys", receivedKeys);
       return next(createError(400, "Bad Request"));
     }
     const result = await books.updateOne({ id: id }, book);
-    console.log("Result: ", result);
+    console.log("Book Update Successful. Result: ", result);
     res.status(204).send();
   } catch (err) {
     if (err.message === "No matching item found") {
-      console.log("Book not found", err.message);
+      console.log("Book Update failed. Book not found", err.message);
       return next(createError(404, "Book not found"));
     }
-    console.error("Error: ", err.message);
+    console.error("Book Update Error: ", err.message);
     next(err);
   }
 });
@@ -645,7 +775,7 @@ app.post("/api/login", async (req, res, next) => {
       !receivedKeys.every((key) => expectedKeys.includes(key)) ||
       receivedKeys.length !== expectedKeys.length
     ) {
-      console.error("Bad Request", receivedKeys);
+      console.error("Login Failed. Bad Request", receivedKeys);
       return next(createError(400, "Bad Request"));
     }
     let authUser;
@@ -673,8 +803,8 @@ app.post("/api/login", async (req, res, next) => {
       res.status(401).send({ user: authUser, message: "Unauthorized" });
     }
   } catch (err) {
-    console.error("Error: ", err);
-    console.error("Error: ", err.message);
+    console.error("Login Error: ", err);
+    console.error("Login Error: ", err.message);
     next(err);
   }
 });
@@ -715,7 +845,7 @@ app.post(
       // checks if the validation passed
       if (!valid) {
         // if not, it generates a 400 error object and forwards it to our middleware error handler.
-        console.error("Bad Request: Invalid request body", validate.errors);
+        console.error("Security Questions: Bad Request: Invalid request body", validate.errors);
         return next(createError(400, "Bad Request"));
       }
 
