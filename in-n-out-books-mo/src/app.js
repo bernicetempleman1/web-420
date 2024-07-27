@@ -719,7 +719,7 @@ app.delete("/api/books/:id", async (req, res, next) => {
     // deletes a book with the matching id from the mock database and returns a 204-status code.
     const result = await books.deleteOne({ id: parseInt(id) });
     console.log("Book deletion Success. Result: ", result);
-    res.status(204).send();
+    res.status(204).send(result);
   } catch (err) {
     if (err.message === "No matching item found") {
       console.error("Delete Error: ", err.message);
@@ -742,7 +742,7 @@ app.put("/api/books/:id", async (req, res, next) => {
       return next(createError(400, "Input must be a number"));
     }
     // including checking if the book title is missing and throwing a 400 error if it is with an applicable error message
-    const expectedKeys = [ "title", "author"];
+    const expectedKeys = [ '_method',"title", "author"];
     const receivedKeys = Object.keys(book);
     if (
       !receivedKeys.every((key) => expectedKeys.includes(key)) ||
@@ -753,7 +753,7 @@ app.put("/api/books/:id", async (req, res, next) => {
     }
     const result = await books.updateOne({ id: id }, book);
     console.log("Book Update Successful. Result: ", result);
-    res.status(204).send();
+    res.status(204).send(result);
   } catch (err) {
     if (err.message === "No matching item found") {
       console.log("Book Update failed. Book not found", err.message);

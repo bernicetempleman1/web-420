@@ -88,6 +88,7 @@ describe("Chapter 5: API Tests", () => {
     const res = await request(app)
       .put("/api/books/1")
       .send({
+        _method: "PUT",
         //{ id: 1, title: "The Fellowship of the Ring", author: "J.R.R. Tolkien" },
         title: "The Fellowship of the Ring",
         author: "J.R.R. Tolkien",
