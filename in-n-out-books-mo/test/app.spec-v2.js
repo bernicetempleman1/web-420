@@ -85,6 +85,7 @@ describe("Chapter 5: API Tests", () => {
   it("Should update a book and return a 204-status code.", async () => {
     // checks if the /api/books/:id PUT endpoint returns a 204 status code for successful updates.
     // sends a PUT request to /api/recipes/:id endpoint and waits for a response, using the supertest npm package.
+    const id =1;
     const res = await request(app)
       .put("/api/books/1")
       .send({
@@ -95,6 +96,8 @@ describe("Chapter 5: API Tests", () => {
       });
     // checks if the response status code is 204, indicating the request was successful.
     expect(res.statusCode).toEqual(204);
+    expect(res.body.message).toEqual("Book updated successfully");
+
   });
 
   //Should return a 400-status code when using a non-numeric id.

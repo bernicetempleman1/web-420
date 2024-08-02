@@ -719,7 +719,7 @@ app.delete("/api/books/:id", async (req, res, next) => {
     // deletes a book with the matching id from the mock database and returns a 204-status code.
     const result = await books.deleteOne({ id: parseInt(id) });
     console.log("Book deletion Success. Result: ", result);
-    res.status(204).send(id);
+    res.status(204).send(result);
   } catch (err) {
     if (err.message === "No matching item found") {
       console.error("Delete Error: ", err.message);
@@ -753,9 +753,8 @@ app.put("/api/books/:id", async (req, res, next) => {
     }
     const result = await books.updateOne({ id: id }, book);
     console.log("Book Update Successful. Result: ", result);
-    res
-          .status(204)
-          .send({ id: id });
+    //res.status(204).send({id: result.id});
+    res.status(204).send();
   } catch (err) {
     if (err.message === "No matching item found") {
       console.log("Book Update failed. Book not found", err.message);
