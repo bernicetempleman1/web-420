@@ -753,7 +753,8 @@ app.put("/api/books/:id", async (req, res, next) => {
     }
     const result = await books.updateOne({ id: id }, book);
     console.log("Book Update Successful. Result: ", result);
-    res.status(204).send(result);
+    //res.status(204).send({id: result.id});
+    res.status(204).send();
   } catch (err) {
     if (err.message === "No matching item found") {
       console.log("Book Update failed. Book not found", err.message);
